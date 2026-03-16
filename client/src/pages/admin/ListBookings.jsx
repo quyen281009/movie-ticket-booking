@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Title from "../../components/admin/title";
+import Title from "../../components/admin/Title";
 import dateFormat from "../../lib/dateFormat";
 import Loading from "../../components/Loading";
 import { useAppContext } from "../../context/AppContext";
