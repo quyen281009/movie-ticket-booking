@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Title from "../../components/admin/title";
+import Title from "../../components/admin/Title";
 import Loading from "../../components/Loading";
 import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
