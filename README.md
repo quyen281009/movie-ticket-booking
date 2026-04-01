@@ -5,10 +5,10 @@ Full Stack Movie Ticket Booking Application built with MERN stack.
 ## 🚀 Live Demo
 
 Frontend
-https://movie-ticket-booking.vercel.app
+https://movie-ticket-booking-gs83.vercel.app/
 
 Backend API
-https://movie-ticket-api.onrender.com
+https://movie-ticket-booking-4m10.onrender.com
 
 ## 🛠 Tech Stack
 

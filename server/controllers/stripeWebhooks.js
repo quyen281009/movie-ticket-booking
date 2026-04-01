@@ -2,10 +2,9 @@ import "dotenv/config.js";
 import Stripe from "stripe";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
-
+import { inngest } from "../inngest/index.js";
 export const stripeWebhooks = async (req, res) => {
 
-  console.log("🔥 STRIPE WEBHOOK HIT");
   const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
   const sig = req.headers["stripe-signature"];
 console.log("Signature:", sig);
@@ -35,7 +34,7 @@ console.log("Signature:", sig);
         });
 
         // Send Confirmation Email to user after successful payment
-        await ingest.send({
+        await inngest.send({
           name: "app/show.booked",
           data: {
             bookingId: bookingId,

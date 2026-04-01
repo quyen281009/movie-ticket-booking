@@ -80,7 +80,7 @@ const AddShows = () => {
 
       const { data } = await axios.post("/api/show/add", payload,
         { headers: { Authorization: `Bearer ${await getToken()}`,}});
-        
+        console.log("🔥 RESPONSE DATA:", data);
       if (data.success) {
         toast.success(data.message);
         setSelectedMovie(null);

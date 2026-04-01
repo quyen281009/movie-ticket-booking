@@ -1,7 +1,7 @@
 import axios from "axios";
 import Movie from "../models/Movie.js";
 import Show from "../models/Show.js";
-
+import { inngest } from "../inngest/index.js";
 export const getNowPlayingMovies = async (req, res) => {
   try {
     const { data } = await axios.get(
@@ -21,6 +21,7 @@ export const getNowPlayingMovies = async (req, res) => {
 };
 
 export const addShow = async (req, res) => {
+  
   try {
     const { movieId, showsInput, showPrice } = req.body;
 
@@ -87,13 +88,16 @@ export const addShow = async (req, res) => {
       await Show.insertMany(showsToCreate);
     }
 
-    //Trigger Inngest function to send new show notifications
-    await ingest.send({
-      name: "app/new-show-added",
-      data: {
-        movieTitle: movie.title,
-      },
-    });
+    try {
+      await inngest.send({
+        name: "app/show.added",
+        data: {
+          movieTitle: movie.title,
+        },
+      });
+    } catch (err) {
+      console.log("Inngest error:", err.message);
+    }
 
     res.json({ success: true, message: "Shows added successfully." });
   } catch (error) {
