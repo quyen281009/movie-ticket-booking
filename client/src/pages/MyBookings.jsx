@@ -4,7 +4,6 @@ import Loading from "../components/Loading";
 import timeFormat from "../lib/timeFormat";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
 import dateFormat from "../lib/dateFormat";
 
 const MyBookings = () => {
@@ -15,29 +14,32 @@ const MyBookings = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [timers, setTimers] = useState({});
 
-  const getMyBookings = useCallback(async () => {
-    try {
-      const { data } = await axios.get("/api/user/bookings", {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+const getMyBookings = useCallback(async () => {
+  try {
+    const { data } = await axios.get("/api/user/bookings", {
+      headers: { Authorization: `Bearer ${await getToken()}` },
+    });
 
-      if (data.success) {
-        setBookings(data.bookings);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Cannot load bookings");
+    if (data.success) {
+      setBookings(data.bookings || []);
     }
-    setIsLoading(false);
-  });
+  } catch (error) {
+    console.log(error);
+    toast.error("Cannot load bookings");
+  }
+
+  setIsLoading(false);
+}, [axios, getToken]);
 
   useEffect(() => {
+    getMyBookings();
+
     const interval = setInterval(() => {
       getMyBookings();
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [getMyBookings]);
 
   useEffect(() => {
     if (user) {
@@ -118,7 +120,7 @@ const MyBookings = () => {
                   {item.amount}
                 </p>
 
-                {!item.isPaid ? (
+                {item.isPaid === true ? (
                   item.paymentLink && (
                     <button
                       onClick={() => (window.location.href = item.paymentLink)}

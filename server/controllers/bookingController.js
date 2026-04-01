@@ -80,13 +80,12 @@ export const createBooking = async (req, res) => {
       metadata: {
         bookingId: booking._id.toString(),
       },
-      expires_at: Math.floor(Date.now() / 1000) + 30 * 60, // Expires in 30 minutes
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     });
 
     booking.paymentLink = session.url;
     await booking.save();
 
-    // Run inngest function to check payment status after 10 minutes
     await inngest.send({
       name: "app/checkpayment",
       data: {
